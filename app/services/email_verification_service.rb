@@ -6,18 +6,16 @@ require 'dnsruby'
 # class OutOfMailServersException < StandardError; end
 
 class EmailVerificationService
-  def initialize(address, list_mxs)
+  def initialize(address, servers)
     @email = address
-    @servers = list_mxs
+    @servers = servers
     @smtp = nil
     @user_email = 'yfgurda@gmail.com'
     _, @user_domain = @user_email.split '@'
   end
 
   def call
-    return nil if servers.empty?
-
-    return nil unless connect
+    return nil if servers.empty? || !connect
 
     verify
   end
@@ -42,9 +40,7 @@ class EmailVerificationService
 
   def verify
     mailfrom(user_email)
-    rcptto(email).tap do
-      close_connection
-    end
+    rcptto(email).tap { close_connection }
   end
 
   def mailfrom(address)

@@ -58,8 +58,6 @@ class EmailGenerationService
   end
 
   def username
-    USERNAME_TEMPLATES.map do |template|
-      template.call(first_name, last_name)
-    end
+    USERNAME_TEMPLATES.map { |template| template.call(first_name, last_name) }
   end
 end

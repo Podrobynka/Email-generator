@@ -11,11 +11,11 @@ class DomainVerificationService
   def call
     return [] unless domain
 
-    res = Dnsruby::DNS.new
     mxs = []
-    res.each_resource(domain, 'MX') do |rr|
-      mxs << { priority: rr.preference, address: rr.exchange.to_s }
+    resources.each_resource(domain, 'MX') do |resource|
+      mxs << { priority: resource.preference, address: resource.exchange.to_s }
     end
+
     mxs.sort_by { |mx| mx[:priority] }
   rescue Dnsruby::NXDomain
     []
@@ -24,4 +24,8 @@ class DomainVerificationService
   private
 
   attr_reader :domain
+
+  def resources
+    Dnsruby::DNS.new
+  end
 end

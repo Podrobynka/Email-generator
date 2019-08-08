@@ -15,24 +15,18 @@ RSpec.describe DomainVerificationService do
        { address: 'ALT4.ASPMX.L.GOOGLE.COM', priority: 10 }]
     end
 
-    it 'return array of domain and mxs' do
-      expect(subject).to match_array(array)
-    end
+    it { expect(subject).to match_array(array) }
   end
 
   context 'unexistent domain' do
     let(:domain) { 'ralabs.gov' }
 
-    it 'return blank array' do
-      expect(subject).to be_empty
-    end
+    it { expect(subject).to be_empty }
   end
 
   context 'no domain' do
     let(:domain) { nil }
 
-    it 'return blank array' do
-      expect(subject).to be_empty
-    end
+    it { expect(subject).to be_empty }
   end
 end
