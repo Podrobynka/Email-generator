@@ -13,7 +13,7 @@ class EmailGenerationService
   ].freeze
 
   DOMAIN_EXTENSIONS = %w[
-    .com .org .net .mil .edu .gov .ca .cn .co .fr .ch .de .jp .uk .ua .us .no
+    .com .org .net .mil .edu .gov .ca .cn .co .fr .ch .de .jp .uk .ua .us
   ].freeze
 
   def initialize(first_name: '', last_name: '', company_name: '')
@@ -22,18 +22,37 @@ class EmailGenerationService
     @company_name = company_name.downcase
   end
 
-  def add_domain_exstension
-    add_domain.product(DOMAIN_EXTENSIONS).map(&:join)
+  def verify_email
+    @available_emails = []
+    create_email.each do |address|
+      responce = EmailVerificationService.new(address).call
+      @available_emails << address unless responce || responce.nil?
+    end
+    # @available_emails
+  end
+
+  def create_domain
+    @available_domains = []
+    domains = DOMAIN_EXTENSIONS.map { |ext| [company_name, ext].join }
+    domains.each do |domain|
+      unless DomainVerificationService.new(domain).list_mxs.empty?
+        @available_domains << domain
+      end
+    end
+    @available_domains
   end
 
   private
 
-  def add_domain
-    USERNAME_TEMPLATES.map do |template|
-      username = template.call(first_name, last_name)
-      [username, company_name].join('@')
-    end
+  attr_reader :first_name, :last_name, :company_name
+
+  def create_email
+    username.product(['@'], create_domain).map(&:join)
   end
 
-  attr_reader :first_name, :last_name, :company_name
+  def username
+    USERNAME_TEMPLATES.map do |template|
+      template.call(first_name, last_name)
+    end
+  end
 end
