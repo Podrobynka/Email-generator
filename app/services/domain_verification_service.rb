@@ -8,7 +8,7 @@ class DomainVerificationService
     @domain = domain
   end
 
-  def list_mxs
+  def call
     return [] unless domain
 
     res = Dnsruby::DNS.new
