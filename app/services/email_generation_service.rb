@@ -13,9 +13,8 @@ class EmailGenerationService
   ].freeze
 
   DOMAIN_EXTENSIONS = %w[
-    .com .org
+    .com .org .net .edu .gov .co .uk .ua .us
   ].freeze
- # .net .edu .gov .co .uk .ua .us
 
   def initialize(
     first_name:,
