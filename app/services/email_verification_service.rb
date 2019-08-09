@@ -9,20 +9,19 @@ class EmailVerificationService
   def initialize(address, servers)
     @email = address
     @servers = servers
-    @smtp = nil
     @user_email = 'yfgurda@gmail.com'
-    _, @user_domain = @user_email.split '@'
+    @user_domain = @user_email.split('@').last
   end
 
   def call
-    return nil if servers.empty? || !connect
+    return if servers.empty? || !connect
 
     verify
   end
 
   private
 
-  attr_reader :email, :servers, :user_email, :user_domain
+  attr_reader :email, :servers, :user_email, :user_domain, :smtp
 
   def connect
     server = next_server
@@ -44,20 +43,20 @@ class EmailVerificationService
   end
 
   def mailfrom(address)
-    ensure_250 @smtp.mailfrom(address)
+    ensure_250 smtp.mailfrom(address)
   end
 
   def rcptto(address)
-    ensure_250 @smtp.rcptto(address)
+    ensure_250 smtp.rcptto(address)
   rescue StandardError => e
-    return false if e.message[/^550/]
+    false if e.message[/^550/]
   end
 
   def close_connection
-    @smtp.finish if @smtp&.started?
+    smtp.finish if smtp&.started?
   end
 
   def ensure_250(smtp_return)
-    return true if smtp_return.status.to_i == 250
+    true if smtp_return.status.to_i == 250
   end
 end

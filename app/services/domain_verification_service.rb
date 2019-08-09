@@ -12,6 +12,7 @@ class DomainVerificationService
     return [] unless domain
 
     mxs = []
+
     resources.each_resource(domain, 'MX') do |resource|
       mxs << { priority: resource.preference, address: resource.exchange.to_s }
     end
