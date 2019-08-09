@@ -8,11 +8,11 @@ RSpec.describe DomainVerificationService do
   context 'existent domain' do
     let(:domain) { 'ralabs.org' }
     let(:array) do
-      [{ address: 'ASPMX.L.GOOGLE.COM', priority: 1 },
-       { address: 'ALT1.ASPMX.L.GOOGLE.COM', priority: 5 },
-       { address: 'ALT2.ASPMX.L.GOOGLE.COM', priority: 5 },
-       { address: 'ALT3.ASPMX.L.GOOGLE.COM', priority: 10 },
-       { address: 'ALT4.ASPMX.L.GOOGLE.COM', priority: 10 }]
+      [{ address: /ASPMX.L.GOOGLE.COM/i, priority: 1 },
+       { address: /ALT1.ASPMX.L.GOOGLE.COM/i, priority: 5 },
+       { address: /ALT2.ASPMX.L.GOOGLE.COM/i, priority: 5 },
+       { address: /ALT3.ASPMX.L.GOOGLE.COM/i, priority: 10 },
+       { address: /ALT4.ASPMX.L.GOOGLE.COM/i, priority: 10 }]
     end
 
     it { expect(subject).to match_array(array) }

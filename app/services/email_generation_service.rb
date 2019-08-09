@@ -16,10 +16,10 @@ class EmailGenerationService
     .com .org .net .mil .edu .gov .ca .cn .co .fr .ch .de .jp .uk .ua .us
   ].freeze
 
-  def initialize(first_name: '', last_name: '', company_name: '')
-    @first_name = first_name.downcase
-    @last_name = last_name.downcase
-    @company_name = company_name.downcase
+  def initialize(params)
+    @first_name = params[:first_name].downcase
+    @last_name = params[:last_name].downcase
+    @company_name = params[:company_name].downcase
   end
 
   def call
