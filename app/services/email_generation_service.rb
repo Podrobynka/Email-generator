@@ -16,10 +16,16 @@ class EmailGenerationService
     .com .org .net .mil .edu .gov .ca .cn .co .fr .ch .de .jp .uk .ua .us
   ].freeze
 
-  def initialize(first_name:, last_name:, company_name:)
+  def initialize(
+    first_name:,
+    last_name:,
+    company_name:,
+    domain_extensions: DOMAIN_EXTENSIONS
+  )
     @first_name = first_name.downcase
     @last_name = last_name.downcase
     @company_name = company_name.downcase
+    @domain_extensions = domain_extensions
   end
 
   def call
@@ -35,7 +41,7 @@ class EmailGenerationService
 
   private
 
-  attr_reader :first_name, :last_name, :company_name
+  attr_reader :first_name, :last_name, :company_name, :domain_extensions
 
   def verify_domain
     available_domains = {}
@@ -49,7 +55,7 @@ class EmailGenerationService
   end
 
   def create_domains
-    DOMAIN_EXTENSIONS.map { |ext| [company_name, ext].join }
+    domain_extensions.map { |ext| [company_name, ext].join }
   end
 
   def create_emails
