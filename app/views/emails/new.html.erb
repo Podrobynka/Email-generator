@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-sm-4">
+      <h1>Email generator</h1>
+      <br>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <form action="/emails" method="POST" rules="form">
+        <div class="form-group row justify-content-center">
+          <label class="col-sm-2 col-form-label">First name</label>
+          <div class="col-sm-6">
+            <input name="first_name" type="text" class="form-control" placeholder="First name" value='<%= params[:first_name] %>'>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-sm-2 col-form-label">Last name</label>
+          <div class="col-sm-6">
+            <input name="last_name" type="text" class="form-control" placeholder="Last name" value='<%= params[:last_name] %>'>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-sm-2 col-form-label">Company</label>
+          <div class="col-sm-6">
+            <input name="company_name" type="text" class="form-control" placeholder="Company" value='<%= params[:company_name] %>'>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <div class="col-sm-4">
+            <button type="submit" class="btn btn-primary">Generate emails</button>
+            <br>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <% if @emails %>
+      <h5></h5>
+      <div class="col-sm-2"></div>
+      <div class="col-sm-6">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Available emails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @emails.each_with_index do |email, index| %>
+              <tr>
+                <th scope="row"><%= index %></th>
+                <td>
+                  <%= email %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
