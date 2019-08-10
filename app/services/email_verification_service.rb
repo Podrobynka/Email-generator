@@ -9,7 +9,7 @@ class EmailVerificationService
   def initialize(address, servers)
     @email = address
     @servers = servers
-    @user_email = 'yfgurda@gmail.com'
+    @user_email = 'your_email@gmail.com'
     @user_domain = @user_email.split('@').last
   end
 
