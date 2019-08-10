@@ -14,7 +14,7 @@ class EmailVerificationService
   end
 
   def call
-    return if servers.empty? || !connect
+    return false if servers.empty? || !connect
 
     verify
   end
@@ -49,7 +49,7 @@ class EmailVerificationService
   def rcptto(address)
     ensure_250 smtp.rcptto(address)
   rescue StandardError => e
-    false if e.message[/^550/]
+    true if e.message[/^550/]
   end
 
   def close_connection
@@ -57,6 +57,6 @@ class EmailVerificationService
   end
 
   def ensure_250(smtp_return)
-    true if smtp_return.status.to_i == 250
+    false if smtp_return.status.to_i == 250
   end
 end

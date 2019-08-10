@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class EmailsController < ApplicationController
-  def new
-    @emails
-  end
-
   def create
     @emails = EmailGenerationService.new(email_params.to_h.symbolize_keys).call
 

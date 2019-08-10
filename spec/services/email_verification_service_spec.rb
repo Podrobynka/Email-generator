@@ -16,19 +16,19 @@ RSpec.describe EmailVerificationService do
   context 'existent email' do
     let(:address) { 'admin@ralabs.org' }
 
-    it { expect(subject).to be true }
+    it { expect(subject).to be_falsey }
   end
 
   context 'unexistent email' do
     let(:address) { 'not_admin@ralabs.org' }
 
-    it { expect(subject).to be false }
+    it { expect(subject).to be_truthy }
   end
 
   context 'no email' do
     let(:address) { '' }
     let(:servers) { [] }
 
-    it { expect(subject).to be nil }
+    it { expect(subject).to be_falsey }
   end
 end

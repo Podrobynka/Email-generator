@@ -29,14 +29,9 @@ class EmailGenerationService
   end
 
   def call
-    @available_emails = []
-
-    create_emails.each do |address|
-      responce = EmailVerificationService.new(address[0], address[1]).call
-      @available_emails << address[0] unless responce || responce.nil?
-    end
-
-    @available_emails
+    create_emails.map do |address|
+      address[0] if EmailVerificationService.new(address[0], address[1]).call
+    end.compact
   end
 
   private
